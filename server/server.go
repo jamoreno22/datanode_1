@@ -5,7 +5,6 @@ import (
 	"io"
 	"log"
 	"net"
-	"os"
 
 	gral "github.com/jamoreno22/lab2_dist/datanode_1/pkg/proto"
 	"google.golang.org/grpc"
@@ -39,7 +38,7 @@ func main() {
 
 }
 
-// - - - - - - - - - - - - - DataNode Server functions - - - - - - - - - - - - 
+// - - - - - - - - - - - - - DataNode Server functions - - - - - - - - - - - -
 
 // DistributeChunks server side
 func (d *dataServer) DistributeChunks(dcs gral.DataNode_DistributeChunksServer) error {
@@ -58,11 +57,12 @@ func (d *dataServer) DistributeChunks(dcs gral.DataNode_DistributeChunksServer) 
 		}
 
 		sP = append(sP, *prop)
-		name
-	return nil
+		return nil
+	}
 }
 
 // UploadBook server side
+
 func (d *dataServer) UploadBook(ubs gral.DataNode_UploadBookServer) error {
 	log.Printf("Stream UploadBook")
 
@@ -82,4 +82,5 @@ func (d *dataServer) UploadBook(ubs gral.DataNode_UploadBookServer) error {
 		indice = indice + 1
 
 	}
+	return nil
 }
