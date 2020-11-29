@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math/rand"
 	"net"
+	"time"
 
 	data "github.com/jamoreno22/lab2_dist/datanode_1/pkg/proto"
 	"google.golang.org/grpc"
@@ -62,7 +64,6 @@ func (d *dataNodeServer) DistributeChunks(dcs data.DataNode_DistributeChunksServ
 
 func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 	log.Printf("Stream UploadBook")
-
 	book := data.Book{}
 	indice := 0
 	for {
@@ -70,6 +71,17 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 		if err == io.EOF {
 			books = append(books, book)
 			log.Printf("EOF... books lenght = %d", len(books))
+			prop := generateProposals(books, []string{"10.10.28.17:9000", "10.10.28.18:9000", "10.10.28.19:9000"})
+
+			//if distribuido
+
+			b, i := checkProposal(prop)
+			if !b {
+				prop = generateProposals(books, i)
+			}
+
+			//if distribuido
+
 			return (ubs.SendAndClose(&data.Message{Text: "EOF"}))
 		}
 		if err != nil {
@@ -79,4 +91,49 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 		indice = indice + 1
 
 	}
+}
+
+func generateProposals(book data.Book, Ips []string) []data.Proposal {
+	var props []data.Proposal
+	for _, chunk := range book {
+		randomIP := Ips[rand.Intn(len(Ips))]
+		props = append(props, data.Proposal{Ip: randomIP, Chunk: chunk})
+	}
+	return props
+}
+
+func checkProposal(props []data.Proposal) (bool, []string) {
+	var ips = []string{"10.10.28.17:9000", "10.10.28.18:9000", "10.10.28.19:9000"}
+	var gIps []string
+
+	for _, ip := range ips {
+		if pingDataNode(ip) {
+			gIps = append(gIps, ip)
+		}
+	}
+
+	for _, prop := range props {
+		if !stringInSlice(prop.Ip, gIps) {
+			return false, gIps
+		}
+	}
+	return true, gIps
+}
+
+func pingDataNode(ip string) bool {
+	timeOut := time.Duration(10 * time.Second)
+	_, err := net.DialTimeout("tcp", ip, timeOut)
+	if err != nil {
+		return false
+	}
+	return true
+}
+
+func stringInSlice(a string, list []string) bool {
+	for _, b := range list {
+		if b == a {
+			return true
+		}
+	}
+	return false
 }
