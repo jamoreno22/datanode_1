@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"fmt"
 	"io/ioutil"
@@ -13,6 +14,8 @@ import (
 	"google.golang.org/grpc"
 )
 
+var bookName string
+
 func main() {
 	var conn *grpc.ClientConn
 
@@ -23,23 +26,63 @@ func main() {
 
 	defer conn.Close()
 
-	dc := data.NewDataNodeClient(conn)
-	fileToBeChunked := "books/Mujercitas-Alcott_Louisa_May.pdf"
+	//dc := gral.NewDataNodeClient(conn)
 
-	uploadBook2(dc, fileToBeChunked)
+	fmt.Println("Seleccione qué desea hacer:")
+	fmt.Println("0 : Cargar un libro")
+	fmt.Println("1 : Descargar un libro")
 
-	log.Println("Client connected...")
+	reader := bufio.NewReader(os.Stdin)
+	char, _, err := reader.ReadRune()
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	switch char {
+	//Upload
+	case '0':
+		fmt.Println("Carga")
+		fmt.Println("Seleccione distribución:")
+		fmt.Println("0 : Centralizada")
+		fmt.Println("1 : Distribuida")
+		r := bufio.NewReader(os.Stdin)
+		c, _, err := r.ReadRune()
+
+		if err != nil {
+			fmt.Println(err)
+		}
+		switch c {
+		//Centralizado
+		case '0':
+			break
+		//Distribuido
+		case '1':
+			break
+		}
+		break
+	//Download
+	case '1':
+		fmt.Println("Ingrese nombre del libro a descargar: ")
+		r := bufio.NewReader(os.Stdin)
+		c, _, err := r.ReadRune()
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		fmt.Println(c)
+		break
+	}
+
+	//var fileToBeChunked string
+	//fileToBeChunked = "books/Mujercitas-Alcott_Louisa_May.pdf"
+	//bookName = "Mujercitas-Alcott_Louisa_May.pdf"
+	//runUploadBook(dc, fileToBeChunked)
 
 }
 
-//Client side downloadBook
-func downloadBook2(book data.Message{}) error {
-	
-	return nil
-}
-
-// Client side uploadbook
-func uploadBook2(dc data.DataNodeClient, fileToBeChunked string) error {
+func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 	// -    - - - - - - -  - -    particionar pdf en chunks - - - - -  - - - -
 
 	file, err := os.Open(fileToBeChunked)
@@ -73,7 +116,7 @@ func uploadBook2(dc data.DataNodeClient, fileToBeChunked string) error {
 		file.Read(partBuffer)
 
 		// write to disk
-		fileName := "somebigfile_" + strconv.FormatUint(i, 10)
+		fileName := bookName + strconv.FormatUint(i, 10)
 		_, err := os.Create(fileName)
 
 		if err != nil {
@@ -111,5 +154,3 @@ func uploadBook2(dc data.DataNodeClient, fileToBeChunked string) error {
 	log.Printf("Route summary: %v", reply)
 	return nil
 }
-
-

@@ -10,11 +10,9 @@ import (
 	"google.golang.org/grpc"
 )
 
-type dataServer struct {
+type dataNodeServer struct {
 	data.UnimplementedDataNodeServer
 }
-
-var path = "Log"
 
 // books variable when books are saved
 var books = []data.Book{}
@@ -27,12 +25,12 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	// create a server instance
-	ds := dataServer{}                               // create a gRPC server object
-	grpcDataServer := grpc.NewServer()               // attach the Ping service to the server
-	data.RegisterDataNodeServer(grpcDataServer, &ds) // start the server
+	ds := dataNodeServer{}                               // create a gRPC server object
+	grpcDataNodeServer := grpc.NewServer()               // attach the Ping service to the server
+	data.RegisterDataNodeServer(grpcDataNodeServer, &ds) // start the server
 
-	log.Println("Server running ...")
-	if err := grpcDataServer.Serve(lis); err != nil {
+	log.Println("DataNode Server running ...")
+	if err := grpcDataNodeServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
 	}
 
@@ -41,7 +39,7 @@ func main() {
 // - - - - - - - - - - - - - DataNode Server functions - - - - - - - - - - - -
 
 // DistributeChunks server side
-func (d *dataServer) DistributeChunks(dcs data.DataNode_DistributeChunksServer) error {
+func (d *dataNodeServer) DistributeChunks(dcs data.DataNode_DistributeChunksServer) error {
 	log.Printf("Stream DistributeChunks")
 
 	sP := []data.Proposal{}
@@ -49,7 +47,6 @@ func (d *dataServer) DistributeChunks(dcs data.DataNode_DistributeChunksServer) 
 	for {
 		prop, err := dcs.Recv()
 		if err == io.EOF {
-			log.Printf("EOF ------------")
 			return (dcs.SendAndClose(&data.Message{Text: "Oh no... EOF"}))
 		}
 		if err != nil {
@@ -63,7 +60,7 @@ func (d *dataServer) DistributeChunks(dcs data.DataNode_DistributeChunksServer) 
 
 // UploadBook server side
 
-func (d *dataServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
+func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 	log.Printf("Stream UploadBook")
 
 	book := data.Book{}
