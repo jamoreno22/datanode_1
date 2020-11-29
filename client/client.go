@@ -40,6 +40,7 @@ func main() {
 	}
 
 	switch char {
+	//Upload
 	case '0':
 		fmt.Println("Carga")
 		fmt.Println("Seleccione distribución:")
@@ -52,16 +53,25 @@ func main() {
 			fmt.Println(err)
 		}
 		switch c {
+		//Centralizado
 		case '0':
-			fmt.Println("Centralizada")
 			break
+		//Distribuido
 		case '1':
-			fmt.Println("Distribuida")
 			break
 		}
 		break
+	//Download
 	case '1':
-		fmt.Println("Descarga")
+		fmt.Println("Ingrese nombre del libro a descargar: ")
+		r := bufio.NewReader(os.Stdin)
+		c, _, err := r.ReadRune()
+
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		fmt.Println(c)
 		break
 	}
 
