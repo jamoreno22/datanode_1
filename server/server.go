@@ -6,18 +6,18 @@ import (
 	"log"
 	"net"
 
-	gral "github.com/jamoreno22/lab2_dist/datanode_1/pkg/proto"
+	data "github.com/jamoreno22/lab2_dist/datanode_1/pkg/proto"
 	"google.golang.org/grpc"
 )
 
 type dataServer struct {
-	gral.UnimplementedDataNodeServer
+	data.UnimplementedDataNodeServer
 }
 
 var path = "Log"
 
 // books variable when books are saved
-var books = []gral.Book{}
+var books = []data.Book{}
 
 func main() {
 
@@ -29,7 +29,7 @@ func main() {
 	// create a server instance
 	ds := dataServer{}                               // create a gRPC server object
 	grpcDataServer := grpc.NewServer()               // attach the Ping service to the server
-	gral.RegisterDataNodeServer(grpcDataServer, &ds) // start the server
+	data.RegisterDataNodeServer(grpcDataServer, &ds) // start the server
 
 	log.Println("Server running ...")
 	if err := grpcDataServer.Serve(lis); err != nil {
@@ -41,16 +41,16 @@ func main() {
 // - - - - - - - - - - - - - DataNode Server functions - - - - - - - - - - - -
 
 // DistributeChunks server side
-func (d *dataServer) DistributeChunks(dcs gral.DataNode_DistributeChunksServer) error {
+func (d *dataServer) DistributeChunks(dcs data.DataNode_DistributeChunksServer) error {
 	log.Printf("Stream DistributeChunks")
 
-	sP := []gral.Proposal{}
+	sP := []data.Proposal{}
 
 	for {
 		prop, err := dcs.Recv()
 		if err == io.EOF {
 			log.Printf("EOF ------------")
-			return (dcs.SendAndClose(&gral.Message{Text: "Oh no... EOF"}))
+			return (dcs.SendAndClose(&data.Message{Text: "Oh no... EOF"}))
 		}
 		if err != nil {
 			return err
@@ -63,17 +63,17 @@ func (d *dataServer) DistributeChunks(dcs gral.DataNode_DistributeChunksServer) 
 
 // UploadBook server side
 
-func (d *dataServer) UploadBook(ubs gral.DataNode_UploadBookServer) error {
+func (d *dataServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 	log.Printf("Stream UploadBook")
 
-	book := gral.Book{}
+	book := data.Book{}
 	indice := 0
 	for {
 		chunk, err := ubs.Recv()
 		if err == io.EOF {
 			books = append(books, book)
 			log.Printf("EOF... books lenght = %d", len(books))
-			return (ubs.SendAndClose(&gral.Message{Text: "EOF"}))
+			return (ubs.SendAndClose(&data.Message{Text: "EOF"}))
 		}
 		if err != nil {
 			return err
@@ -82,5 +82,4 @@ func (d *dataServer) UploadBook(ubs gral.DataNode_UploadBookServer) error {
 		indice = indice + 1
 
 	}
-	return nil
 }
