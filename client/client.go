@@ -55,9 +55,11 @@ func main() {
 		switch c {
 		//Centralizado
 		case '0':
+			//dc.DistributionType(context.Background(), data.Message{Text: "0"})
 			break
 		//Distribuido
 		case '1':
+			//dc.DistributionType(context.Background(), data.Message{Text: "1"})
 			break
 		}
 		break

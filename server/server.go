@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"log"
@@ -18,6 +19,7 @@ type dataNodeServer struct {
 
 // books variable when books are saved
 var books = []data.Book{}
+var distributionType = "0"
 
 func main() {
 
@@ -39,6 +41,12 @@ func main() {
 }
 
 // - - - - - - - - - - - - - DataNode Server functions - - - - - - - - - - - -
+
+//DistributionType server side
+func (d *dataNodeServer) DistributionType(ctx context.Context, req *data.Message) (*data.Message, error) {
+	distributionType = req.Text
+	return &data.Message{Text: "Recibido"}, nil
+}
 
 // DistributeChunks server side
 func (d *dataNodeServer) DistributeChunks(dcs data.DataNode_DistributeChunksServer) error {
@@ -70,14 +78,14 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 		chunk, err := ubs.Recv()
 		if err == io.EOF {
 			books = append(books, book)
-			log.Printf("EOF... books lenght = %d", len(books))
-			prop := generateProposals(books, []string{"10.10.28.17:9000", "10.10.28.18:9000", "10.10.28.19:9000"})
+
+			prop := generateProposals(book, []string{"10.10.28.17:9000", "10.10.28.18:9000", "10.10.28.19:9000"})
 
 			//if distribuido
 
 			b, i := checkProposal(prop)
 			if !b {
-				prop = generateProposals(books, i)
+				prop = generateProposals(book, i)
 			}
 
 			//if distribuido
@@ -95,7 +103,7 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 
 func generateProposals(book data.Book, Ips []string) []data.Proposal {
 	var props []data.Proposal
-	for _, chunk := range book {
+	for _, chunk := range book.Chunks {
 		randomIP := Ips[rand.Intn(len(Ips))]
 		props = append(props, data.Proposal{Ip: randomIP, Chunk: chunk})
 	}

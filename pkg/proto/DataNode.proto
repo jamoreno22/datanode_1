@@ -6,12 +6,12 @@ package lab;
 
 service DataNode {
 
+    rpc DistributionType(Message) returns (Message){}
     rpc DistributeChunks(stream Proposal) returns (Message) {}
     rpc UploadBook(stream Chunk) returns (Message) {}
     rpc DownloadBook(Message) returns (stream Chunk) {}
     //Distribuido
     rpc SendProposal(stream Proposal) returns (Message) {}
-
 
 }
 
