@@ -83,6 +83,7 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 		}
 		a = a + 1
 	}
+	log.Printf("%d proposals enviadas", a)
 	finalProposals := []data.Proposal{}
 	go func() {
 		for {
