@@ -73,7 +73,7 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 		log.Println("Error de stream send proposal")
 	}
 
-	log.Println("ki voy")
+	log.Println("ki voy... run send proposal")
 	a := 1
 	for _, prop := range proposals {
 
@@ -85,11 +85,12 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 	}
 	finalProposals := []data.Proposal{}
 	for {
-		log.Println("ki voy")
+		log.Println("ki voy... inicio retorno desde el namenode")
 
 		in, err := stream.Recv()
 		if err == io.EOF {
 			// read done.
+			log.Printf("lo vamos a distribuir")
 			runDistributeChunks(finalProposals)
 
 			log.Printf("weno")
