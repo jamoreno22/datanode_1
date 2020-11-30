@@ -84,25 +84,26 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 		a = a + 1
 	}
 	finalProposals := []data.Proposal{}
-	for {
-		log.Println("ki voy... inicio retorno desde el namenode")
+	go func() {
+		for {
+			log.Println("ki voy... inicio retorno desde el namenode")
 
-		in, err := stream.Recv()
-		if err == io.EOF {
-			// read done.
-			log.Printf("lo vamos a distribuir")
-			runDistributeChunks(finalProposals)
+			in, err := stream.Recv()
+			if err == io.EOF {
+				// read done.
+				log.Printf("lo vamos a distribuir")
+				runDistributeChunks(finalProposals)
 
-			log.Printf("weno")
-			return nil
+				log.Printf("weno")
+			}
+			if err != nil {
+				log.Fatalf("Failed to receive a proposal : %v", err)
+			}
+			//in es cada proposal
+			finalProposals = append(finalProposals, *in)
 		}
-		if err != nil {
-			log.Fatalf("Failed to receive a proposal : %v", err)
-		}
-		//in es cada proposal
-		finalProposals = append(finalProposals, *in)
-
-	}
+	}()
+	return nil
 }
 
 // - - - - - - - - - - - - - DataNode Server functions - - - - - - - - - - - -
