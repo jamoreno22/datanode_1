@@ -4,13 +4,14 @@ import (
 	"bufio"
 	"context"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"math"
 	"os"
 	"strconv"
 
-	data "github.com/jamoreno22/lab2_dist/datanode_1/pkg/proto"
+	data "github.com/jamoreno22/datanode_1/pkg/proto"
 	"google.golang.org/grpc"
 )
 
@@ -118,7 +119,7 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 		file.Read(partBuffer)
 
 		// write to disk
-		fileName := bookName + strconv.FormatUint(i, 10)
+		fileName := bookName + "_" + strconv.FormatUint(i, 10)
 		_, err := os.Create(fileName)
 
 		if err != nil {
@@ -154,5 +155,120 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 		log.Println("Error recepcion response")
 	}
 	log.Printf("Route summary: %v", reply)
+	return nil
+}
+
+func runDownloadBook(dc data.DataNodeClient, msg string) error {
+	var chunks []data.Chunk
+	stream, err := dc.DownloadBook(context.Background(), data.Message{Text: msg})
+	if err != nil {
+		return err
+	}
+	for {
+		chunk, err := stream.Recv()
+		if err == io.EOF {
+			//funcion para reconstruir los libros
+			return nil
+		}
+		if err != nil {
+			log.Fatalf("%v.ListFeatures(_) = _, %v", dc, err)
+		}
+		chunks = append(chunks, chunk)
+	}
+}
+
+func rebuildBook(chunks []data.Chunk) error {
+
+	newFileName := bookName + ".zip"
+	_, err := os.Create(newFileName)
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	//set the newFileName file to APPEND MODE!!
+	// open files r and w
+
+	file, err := os.OpenFile(newFileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	// IMPORTANT! do not defer a file.Close when opening a file for APPEND mode!
+	// defer file.Close()
+
+	// just information on which part of the new file we are appending
+	var writePosition int64 = 0
+
+	for j := uint64(0); j < uint64(len(chunks)); j++ {
+
+		//read a chunk
+		currentChunkFileName := bookName + strconv.FormatUint(j, 10)
+
+		newFileChunk, err := os.Open(currentChunkFileName)
+
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+
+		defer newFileChunk.Close()
+
+		chunkInfo, err := newFileChunk.Stat()
+
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+
+		// calculate the bytes size of each chunk
+		// we are not going to rely on previous data and constant
+
+		var chunkSize int64 = chunkInfo.Size()
+		chunkBufferBytes := make([]byte, chunkSize)
+
+		fmt.Println("Appending at position : [", writePosition, "] bytes")
+		writePosition = writePosition + chunkSize
+
+		// read into chunkBufferBytes
+		reader := bufio.NewReader(newFileChunk)
+		_, err = reader.Read(chunkBufferBytes)
+
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+
+		// DON't USE ioutil.WriteFile -- it will overwrite the previous bytes!
+		// write/save buffer to disk
+		//ioutil.WriteFile(newFileName, chunkBufferBytes, os.ModeAppend)
+
+		n, err := file.Write(chunkBufferBytes)
+
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+
+		file.Sync() //flush to disk
+
+		// free up the buffer for next cycle
+		// should not be a problem if the chunk size is small, but
+		// can be resource hogging if the chunk size is huge.
+		// also a good practice to clean up your own plate after eating
+
+		chunkBufferBytes = nil // reset or empty our buffer
+
+		fmt.Println("Written ", n, " bytes")
+
+		fmt.Println("Recombining part [", j, "] into : ", newFileName)
+	}
+
+	// now, we close the newFileName
+	file.Close()
+
 	return nil
 }

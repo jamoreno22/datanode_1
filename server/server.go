@@ -19,7 +19,7 @@ type dataNodeServer struct {
 
 // books variable when books are saved
 var books = []data.Book{}
-var distributionType = "0"
+var distributionType string
 
 func main() {
 
@@ -81,14 +81,16 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 
 			prop := generateProposals(book, []string{"10.10.28.17:9000", "10.10.28.18:9000", "10.10.28.19:9000"})
 
-			//if distribuido
+			if distributionType == "1" {
 
-			b, i := checkProposal(prop)
-			if !b {
-				prop = generateProposals(book, i)
+				b, i := checkProposal(prop)
+				if !b {
+					prop = generateProposals(book, i)
+				}
+
 			}
 
-			//if distribuido
+			//enviar prop al server del NameNode
 
 			return (ubs.SendAndClose(&data.Message{Text: "EOF"}))
 		}
