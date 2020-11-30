@@ -124,6 +124,7 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 
 		fmt.Println("Split to : ", fileName)
 		log.Println("tamaño: ", partSize)
+		part = part + 1
 	}
 	// - -- -- - - -- -  Send book info
 	dc.SendBookInfo(context.Background(), &data.Book{Name: bookName, Parts: int32(len(book))})
