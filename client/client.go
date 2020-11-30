@@ -5,7 +5,6 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"math"
 	"os"
@@ -127,16 +126,14 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 			os.Exit(1)
 		}
 
-		// write/save buffer to disk
-		ioutil.WriteFile(fileName, partBuffer, os.ModeAppend)
-
 		// books instantiation
 		book[i] = &data.Chunk{Name: fileName, Data: partBuffer}
 
 		fmt.Println("Split to : ", fileName)
 		log.Println("tamaño: ", partSize)
 	}
-
+	// - -- -- - - -- -  Send book info
+	dc.SendBookInfo(context.Background(), data.Book{Name: bookName, Parts: len(book)})
 	// - - - - - --- -- - -  stream chunks - - - - - - - - - - - -
 	stream, err := dc.UploadBook(context.Background())
 	if err != nil {
