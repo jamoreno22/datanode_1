@@ -28,38 +28,6 @@ var bookParts int32
 
 func main() {
 
-	// NameNodeServer Connection ---------------------------------------
-	var nameConn *grpc.ClientConn
-
-	nameConn, err := grpc.Dial("10.10.28.20:9000", grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("Did not connect: %s", err)
-	}
-
-	defer nameConn.Close()
-
-	//runGetChunkDistribution(nameClient, &data.Message{Text: bookName})
-
-	// Datanode_2 Connection -------------------------------------------
-	var datanode2Conn *grpc.ClientConn
-
-	datanode2Conn, err2 := grpc.Dial("10.10.28.18:9000", grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("did not connect: %s", err2)
-	}
-
-	defer datanode2Conn.Close()
-
-	// Datanode_3 Connection -------------------------------------------
-	var datanode3Conn *grpc.ClientConn
-
-	datanode3Conn, err3 := grpc.Dial("10.10.28.17:9000", grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("did not connect: %s", err3)
-	}
-
-	defer datanode3Conn.Close()
-
 	// Server Logic ----------------------------------------------------
 	// create a listener on TCP port 9000
 	lis, err := net.Listen("tcp", "10.10.28.17:9000")
