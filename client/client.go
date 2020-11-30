@@ -148,6 +148,7 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 	reply, err := stream.CloseAndRecv()
 	if err != nil {
 		log.Println("Error recepcion response")
+		return err
 	}
 	log.Printf("Route summary: %v", reply)
 	return nil

@@ -108,14 +108,14 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 
 //Distribute chunk server side
 func (d *dataNodeServer) DistributeChunks(ctx context.Context, req *data.Chunk) (*data.Message, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DistributeChunks not implemented")
+	return data.Message{Text: "OwO"}, status.Errorf(codes.Unimplemented, "method DistributeChunks not implemented")
 }
 
 //SendBookInfo
 func (d *dataNodeServer) SendBookInfo(ctx context.Context, req *data.Book) (*data.Message, error) {
 	bookName = req.Name
 	bookParts = req.Parts
-	return nil, nil
+	return data.Message{Text: "UwU"}, nil
 }
 
 //DistributionType server side
