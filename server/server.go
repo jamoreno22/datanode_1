@@ -193,7 +193,7 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 			if err != nil {
 				log.Fatalf("Did not connect: %s", err)
 			}
-			defer nameConn.Close()
+
 			nameClient := data.NewNameNodeClient(nameConn)
 			//-------------------------------------------------------------------
 
@@ -203,6 +203,7 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 				log.Fatalf("Did not connect: %s", err4)
 			}
 			runSendProposal(nameClient, prop)
+			defer nameConn.Close()
 			return (ubs.SendAndClose(&data.Message{Text: "EOF"}))
 		}
 		if err != nil {
