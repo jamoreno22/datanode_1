@@ -107,6 +107,7 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 	fmt.Printf("Splitting to %d pieces.\n", totalPartsNum)
 
 	book := make([]*data.Chunk, totalPartsNum)
+	part := 0
 
 	for i := uint64(0); i < totalPartsNum; i++ {
 
@@ -116,13 +117,7 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 		file.Read(partBuffer)
 
 		// write to disk
-		fileName := bookName + "_" + strconv.FormatUint(i, 10)
-		_, err := os.Create(fileName)
-
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
+		fileName := "part_" + strconv.Itoa(part) + "_" + strconv.Itoa(int(totalPartsNum))
 
 		// books instantiation
 		book[i] = &data.Chunk{Name: fileName, Data: partBuffer}
