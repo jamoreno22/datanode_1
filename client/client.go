@@ -25,7 +25,7 @@ func main() {
 
 	defer conn.Close()
 
-	//dc := gral.NewDataNodeClient(conn)
+	dc := data.NewDataNodeClient(conn)
 
 	fmt.Println("Seleccione qué desea hacer:")
 	fmt.Println("0 : Cargar un libro")
@@ -54,7 +54,7 @@ func main() {
 		switch c {
 		//Centralizado
 		case '0':
-			//dc.DistributionType(context.Background(), data.Message{Text: "0"})
+			dc.DistributionType(context.Background(), &data.Message{Text: "0"})
 			break
 		//Distribuido
 		case '1':
