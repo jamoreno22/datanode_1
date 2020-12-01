@@ -83,9 +83,7 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 		}
 		a = a + 1
 	}
-	rest, _ := time.ParseDuration("10s")
-	time.Sleep(rest)
-	stream.CloseSend()
+	time.Sleep(5 * time.Second)
 	log.Printf("%d proposals enviadas", a)
 	finalProposals := []data.Proposal{}
 	go func() {
