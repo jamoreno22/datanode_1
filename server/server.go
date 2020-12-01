@@ -100,8 +100,7 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 			log.Printf("weno")
 		}
 		if err != nil {
-			log.Printf("Failed to receive a proposal : %v", err)
-			continue
+			log.Fatalf("Failed to receive a proposal : %v", err)
 		}
 		//in es cada proposal
 		finalProposals = append(finalProposals, *in)
