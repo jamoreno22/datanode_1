@@ -124,24 +124,21 @@ func (d *dataNodeServer) DistributionType(ctx context.Context, req *data.Message
 
 // DistributeChunks in another datanodes
 func runDistributeChunks(props []data.Proposal) error {
+	//-----  crear las conexiones a los otros datanodes ----------------------
+	var datanode2Conn *grpc.ClientConn
+	datanode2Conn, err2 := grpc.Dial("10.10.28.18:9000", grpc.WithInsecure())
+	if err2 != nil {
+		log.Fatalf("did not connect: %s", err2)
+	}
+
+	// Datanode_3 Connection -------------------------------------------
+	var datanode3Conn *grpc.ClientConn
+	datanode3Conn, err3 := grpc.Dial("10.10.28.19:9000", grpc.WithInsecure())
+	if err3 != nil {
+		log.Fatalf("did not connect: %s", err3)
+	}
+
 	for _, prop := range props {
-
-		//-----  crear las conexiones a los otros datanodes ----------------------
-		var datanode2Conn *grpc.ClientConn
-		datanode2Conn, err2 := grpc.Dial("10.10.28.18:9000", grpc.WithInsecure())
-		if err2 != nil {
-			log.Fatalf("did not connect: %s", err2)
-		}
-		defer datanode2Conn.Close()
-
-		// Datanode_3 Connection -------------------------------------------
-		var datanode3Conn *grpc.ClientConn
-		datanode3Conn, err3 := grpc.Dial("10.10.28.19:9000", grpc.WithInsecure())
-		if err3 != nil {
-			log.Fatalf("did not connect: %s", err3)
-		}
-		defer datanode3Conn.Close()
-
 		if prop.Ip == "10.10.28.17:9000" {
 			// write/save buffer to disk
 			os.Open("Chunks/")
@@ -160,6 +157,8 @@ func runDistributeChunks(props []data.Proposal) error {
 			}
 		}
 	}
+	defer datanode2Conn.Close()
+	defer datanode3Conn.Close()
 	return nil
 }
 
