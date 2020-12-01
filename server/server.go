@@ -102,10 +102,11 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 // - - - - - - - - - - - - - DataNode Server functions - - - - - - - - - - - -
 
 //Distribute chunk server side
+
 func (d *dataNodeServer) DistributeChunks(ctx context.Context, req *data.Chunk) (*data.Message, error) {
 	os.Open("Chunks/")
 	ioutil.WriteFile(req.Name, req.Data, os.ModeAppend)
-	return &data.Message{Text: "OwO"}, nil
+	return nil, nil
 }
 
 //SendBookInfo
