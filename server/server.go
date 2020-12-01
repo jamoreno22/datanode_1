@@ -81,7 +81,6 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 
 		if err := stream.Send(&prop); err != nil {
 			log.Println("error al enviar chunk")
-			log.Fatalf("%v.Send(%d) = %v", stream, a, err)
 		}
 		a = a + 1
 	}
