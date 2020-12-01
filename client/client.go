@@ -104,8 +104,6 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 
 	totalPartsNum := uint64(math.Ceil(float64(fileSize) / float64(fileChunk)))
 
-	fmt.Printf("Splitting to %d pieces.\n", totalPartsNum)
-
 	book := make([]*data.Chunk, totalPartsNum)
 	part := 0
 
@@ -222,7 +220,7 @@ func rebuildBook(chunks []data.Chunk) error {
 		var chunkSize int64 = chunkInfo.Size()
 		chunkBufferBytes := make([]byte, chunkSize)
 
-		fmt.Println("Appending at position : [", writePosition, "] bytes")
+		//fmt.Println("Appending at position : [", writePosition, "] bytes")
 		writePosition = writePosition + chunkSize
 
 		// read into chunkBufferBytes

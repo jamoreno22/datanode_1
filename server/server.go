@@ -73,26 +73,20 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 		log.Println("Error de stream send proposal")
 	}
 
-	log.Println("ki voy... run send proposal")
-	a := 1
 	for _, prop := range proposals {
 
 		if err := stream.Send(&prop); err != nil {
 			log.Println("error al enviar chunk")
 		}
-		a = a + 1
 	}
 	stream.CloseSend()
 	time.Sleep(5 * time.Second)
-	log.Printf("%d proposals enviadas", a)
 	finalProposals := []data.Proposal{}
 	for {
-		log.Println("ki voy... inicio retorno desde el namenode")
 
 		in, err := stream.Recv()
 		if err == io.EOF || len(proposals) == len(finalProposals) {
 			// read done.
-			log.Printf("lo vamos a distribuir")
 			runDistributeChunks(finalProposals)
 
 			return nil
@@ -170,7 +164,6 @@ func runDistributeChunks(props []data.Proposal) error {
 
 // UploadBook server side
 func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
-	log.Printf("Stream UploadBook")
 	book := data.Book{}
 	indice := 0
 	for {
