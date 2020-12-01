@@ -141,10 +141,10 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 		}
 		a = a + 1
 	}
-	reply, err := stream.CloseAndRecv()
-	if err != nil {
+	_, errLast := stream.CloseAndRecv()
+	if errLast != nil {
 		log.Println("Error recepcion response")
-		return err
+		return errLast
 	}
 	log.Printf("El libro ha sido subido correctamente")
 	return nil
