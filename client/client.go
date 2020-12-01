@@ -105,7 +105,7 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 	totalPartsNum := uint64(math.Ceil(float64(fileSize) / float64(fileChunk)))
 
 	book := make([]*data.Chunk, totalPartsNum)
-	part := 0
+	part := 1
 
 	for i := uint64(0); i < totalPartsNum; i++ {
 
@@ -119,9 +119,6 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 
 		// books instantiation
 		book[i] = &data.Chunk{Name: fileName, Data: partBuffer}
-
-		fmt.Println("Split to : ", fileName)
-		log.Println("tamaño: ", partSize)
 		part = part + 1
 	}
 	// - -- -- - - -- -  Send book info
