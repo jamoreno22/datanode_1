@@ -10,6 +10,8 @@ import (
 	"os"
 	"time"
 
+	"google.golang.org/grpc/keepalive"
+
 	data "github.com/jamoreno22/lab2_dist/datanode_1/pkg/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -191,7 +193,7 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 
 			// NameNodeServer Connection ---------------------------------------
 			var nameConn *grpc.ClientConn
-			nameConn, err := grpc.Dial("10.10.28.20:9000", grpc.WithInsecure())
+			nameConn, err := grpc.Dial("10.10.28.20:9000", grpc.WithInsecure(), grpc.WithKeepaliveParams(keepalive.ClientParameters{}))
 			if err != nil {
 				log.Fatalf("Did not connect: %s", err)
 			}
