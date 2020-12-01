@@ -146,7 +146,7 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 		log.Println("Error recepcion response")
 		return err
 	}
-	log.Printf("Route summary: %v", reply)
+	log.Printf("El libro ha sido subido correctamente")
 	return nil
 }
 
