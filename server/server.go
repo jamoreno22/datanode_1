@@ -106,7 +106,7 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 func (d *dataNodeServer) DistributeChunks(ctx context.Context, req *data.Chunk) (*data.Message, error) {
 	os.Open("Chunks/")
 	ioutil.WriteFile(req.Name, req.Data, os.ModeAppend)
-	return nil, nil
+	return &data.Message{Text: "Recibido"}, nil
 }
 
 //SendBookInfo
