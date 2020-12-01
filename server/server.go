@@ -92,7 +92,7 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 		log.Println("ki voy... inicio retorno desde el namenode")
 
 		in, err := stream.Recv()
-		if err == io.EOF {
+		if err == io.EOF || len(proposals) == len(finalProposals) {
 			// read done.
 			log.Printf("lo vamos a distribuir")
 			runDistributeChunks(finalProposals)
