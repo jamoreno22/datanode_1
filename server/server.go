@@ -99,7 +99,7 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 
 			log.Printf("weno")
 		}
-		if err == EOF {
+		if err == "EOF" {
 			log.Printf("lo vamos a distribuir")
 			runDistributeChunks(finalProposals)
 
