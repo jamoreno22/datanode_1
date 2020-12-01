@@ -14,8 +14,6 @@ import (
 
 	data "github.com/jamoreno22/lab2_dist/datanode_1/pkg/proto"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 type dataNodeServer struct {
@@ -97,7 +95,7 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 			log.Printf("lo vamos a distribuir")
 			runDistributeChunks(finalProposals)
 
-			log.Printf("weno")
+			return nil
 		}
 		if err != nil {
 			log.Fatalf("Failed to receive a proposal : %v", err)
@@ -111,7 +109,9 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 
 //Distribute chunk server side
 func (d *dataNodeServer) DistributeChunks(ctx context.Context, req *data.Chunk) (*data.Message, error) {
-	return &data.Message{Text: "OwO"}, status.Errorf(codes.Unimplemented, "method DistributeChunks not implemented")
+	os.Open("Chunks/")
+	ioutil.WriteFile(req.Name, req.Data, os.ModeAppend)
+	return &data.Message{Text: "OwO"}, nil
 }
 
 //SendBookInfo
@@ -149,6 +149,7 @@ func runDistributeChunks(props []data.Proposal) error {
 
 		if prop.Ip == "10.10.28.17:9000" {
 			// write/save buffer to disk
+			os.Open("Chunks/")
 			ioutil.WriteFile(prop.Chunk.Name, prop.Chunk.Data, os.ModeAppend)
 		} else if prop.Ip == "10.10.28.18:9000" {
 			datanode2Client := data.NewDataNodeClient(datanode2Conn)
