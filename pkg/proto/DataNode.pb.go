@@ -264,31 +264,33 @@ func init() {
 }
 
 var fileDescriptor_2cc4c9d8f36887fb = []byte{
-	// 383 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0x8c, 0x53, 0x4d, 0x6f, 0xda, 0x40,
-	0x10, 0xc5, 0x18, 0x53, 0x18, 0x0c, 0x45, 0x23, 0x0e, 0x56, 0xa5, 0x4a, 0x68, 0x4f, 0x6e, 0x55,
-	0x19, 0xe4, 0x1e, 0x7a, 0xe9, 0xa9, 0x45, 0xad, 0x72, 0x08, 0x8a, 0x1c, 0xf2, 0x03, 0x16, 0xd8,
-	0x10, 0x0b, 0xc7, 0x6b, 0x79, 0x17, 0x25, 0xf9, 0x9b, 0xfc, 0xa2, 0xac, 0x87, 0x0f, 0xd9, 0x10,
-	0x91, 0xdc, 0xde, 0xcc, 0xbc, 0x79, 0x7e, 0xf3, 0x56, 0x86, 0xde, 0x84, 0x6b, 0x3e, 0x95, 0x4b,
-	0x11, 0x64, 0xb9, 0xd4, 0x12, 0xed, 0x84, 0xcf, 0x99, 0x07, 0x8d, 0x7f, 0x71, 0x22, 0xb0, 0x0f,
-	0x76, 0x22, 0x57, 0x9e, 0x35, 0xb4, 0x7c, 0x37, 0x2a, 0x20, 0x9b, 0x41, 0xe3, 0x8f, 0x94, 0x6b,
-	0x44, 0x68, 0xa4, 0xfc, 0x51, 0xd0, 0xa8, 0x1d, 0x11, 0xc6, 0x01, 0x38, 0x19, 0xcf, 0xb5, 0xf2,
-	0xea, 0xa6, 0xe9, 0x44, 0xbb, 0x02, 0x19, 0x34, 0x17, 0x0f, 0x9b, 0x74, 0xad, 0x3c, 0x7b, 0x68,
-	0xfb, 0x9d, 0x10, 0x02, 0xf3, 0x85, 0xe0, 0x6f, 0xd1, 0x8a, 0xf6, 0x13, 0x36, 0x02, 0x87, 0x1a,
-	0x6f, 0xca, 0x9a, 0xde, 0xd2, 0x78, 0x24, 0x55, 0x37, 0x22, 0xcc, 0xbe, 0xc2, 0xa7, 0x6b, 0xa1,
-	0x14, 0x5f, 0xd1, 0x58, 0x8b, 0x67, 0x7d, 0x58, 0x29, 0x30, 0xfb, 0x0d, 0xad, 0x9b, 0x5c, 0x66,
-	0x52, 0xf1, 0x04, 0x7b, 0x50, 0x8f, 0xb3, 0xfd, 0xd4, 0x20, 0x1c, 0x82, 0x43, 0x5f, 0x25, 0xbd,
-	0xaa, 0x9d, 0xdd, 0x20, 0xdc, 0xd6, 0xa1, 0x75, 0x48, 0x05, 0xbf, 0x81, 0x7b, 0x2b, 0xd2, 0x65,
-	0x71, 0xf4, 0x55, 0x7a, 0x2f, 0xb1, 0x4d, 0xfc, 0xa2, 0xfc, 0xe2, 0x12, 0xdc, 0xfb, 0x60, 0x35,
-	0x1c, 0x43, 0x7f, 0x12, 0x2b, 0x9d, 0xc7, 0xf3, 0x8d, 0x8e, 0x65, 0x3a, 0x7b, 0xc9, 0x04, 0x56,
-	0x38, 0x67, 0x1b, 0xdf, 0x01, 0xee, 0xb2, 0x44, 0x72, 0x92, 0xc7, 0x92, 0x95, 0x53, 0xa6, 0x6f,
-	0xe1, 0x0f, 0x70, 0x27, 0xf2, 0x29, 0x3d, 0xb2, 0xab, 0xca, 0xa5, 0x5d, 0x56, 0x1b, 0x5b, 0x18,
-	0x94, 0xbc, 0x08, 0x6a, 0xab, 0x4b, 0xfa, 0x86, 0xdf, 0x8d, 0x84, 0x5a, 0xf0, 0x23, 0xb9, 0x2a,
-	0xdf, 0xa5, 0xea, 0x90, 0xa9, 0xe1, 0x8f, 0x76, 0xb1, 0x1c, 0x53, 0xae, 0x12, 0xce, 0xed, 0x87,
-	0x5b, 0x0b, 0x5a, 0x53, 0xf3, 0x9c, 0x14, 0xea, 0x08, 0x3e, 0xff, 0x17, 0xba, 0x1c, 0xd6, 0x3b,
-	0x41, 0xf9, 0xd0, 0x31, 0x0b, 0x1f, 0x79, 0x84, 0xf0, 0xb2, 0xb1, 0xd3, 0x43, 0x7c, 0xcb, 0x84,
-	0xf5, 0x0b, 0x06, 0x46, 0x9d, 0x0e, 0xbf, 0xe0, 0xe9, 0x74, 0x75, 0x6c, 0xcd, 0x9b, 0xf4, 0xcf,
-	0xfc, 0x7c, 0x0d, 0x00, 0x00, 0xff, 0xff, 0xb0, 0x30, 0x3e, 0xed, 0x45, 0x03, 0x00, 0x00,
+	// 407 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x09, 0x6e, 0x88, 0x02, 0xff, 0x8c, 0x53, 0xcd, 0x8e, 0xda, 0x40,
+	0x0c, 0x6e, 0x08, 0xa1, 0x60, 0x02, 0x45, 0x23, 0x0e, 0x51, 0xa5, 0x4a, 0x28, 0xa7, 0xb4, 0xaa,
+	0x02, 0x4a, 0x0f, 0xbd, 0xf4, 0xd2, 0x16, 0xb5, 0xaa, 0xd4, 0xa2, 0x2a, 0xa5, 0x0f, 0x30, 0x81,
+	0x59, 0x36, 0x22, 0x9b, 0x89, 0x32, 0xc3, 0xfe, 0xbc, 0xd7, 0x3e, 0xc9, 0x3e, 0xd1, 0x3a, 0x0e,
+	0xa0, 0x04, 0x10, 0xec, 0xed, 0x1b, 0xfb, 0xb3, 0xfd, 0xf9, 0xb3, 0x06, 0xfa, 0x53, 0xae, 0xf9,
+	0x4c, 0x2e, 0x85, 0x9f, 0xe5, 0x52, 0x4b, 0x66, 0x26, 0x3c, 0x72, 0x1d, 0x68, 0xfe, 0x88, 0x13,
+	0xc1, 0x06, 0x60, 0x26, 0x72, 0xe5, 0x18, 0x23, 0xc3, 0xb3, 0xc3, 0x02, 0xba, 0x73, 0x68, 0x7e,
+	0x93, 0x72, 0xcd, 0x18, 0x34, 0x53, 0x7e, 0x23, 0x28, 0xd5, 0x09, 0x09, 0xb3, 0x21, 0x58, 0x19,
+	0xcf, 0xb5, 0x72, 0x1a, 0x18, 0xb4, 0xc2, 0xf2, 0xc1, 0x5c, 0x68, 0x2d, 0xae, 0x37, 0xe9, 0x5a,
+	0x39, 0xe6, 0xc8, 0xf4, 0xba, 0x01, 0xf8, 0x38, 0xc1, 0xff, 0x5e, 0x84, 0xc2, 0x6d, 0xc6, 0x1d,
+	0x83, 0x45, 0x81, 0x93, 0x6d, 0x31, 0xb6, 0x44, 0x8d, 0xd4, 0xd5, 0x0e, 0x09, 0xbb, 0xef, 0xe0,
+	0xf5, 0x1f, 0xa1, 0x14, 0x5f, 0x51, 0x5a, 0x8b, 0x7b, 0xbd, 0x2b, 0x29, 0xb0, 0xfb, 0x05, 0xda,
+	0x7f, 0x73, 0x99, 0x49, 0xc5, 0x13, 0xd6, 0x87, 0x46, 0x9c, 0x6d, 0xb3, 0x88, 0xd8, 0x08, 0x2c,
+	0x9a, 0x4a, 0xfd, 0xea, 0x72, 0xca, 0x44, 0xf0, 0xd4, 0x80, 0xf6, 0xce, 0x15, 0xf6, 0x1e, 0xec,
+	0x7f, 0x22, 0x5d, 0x16, 0x4b, 0xff, 0x4a, 0xaf, 0x24, 0xeb, 0x10, 0xbf, 0x78, 0xbe, 0xb5, 0x09,
+	0x6e, 0x75, 0xb8, 0xaf, 0xd8, 0x04, 0x06, 0xd3, 0x58, 0xe9, 0x3c, 0x8e, 0x36, 0x3a, 0x96, 0xe9,
+	0xfc, 0x21, 0x13, 0xac, 0xc6, 0x39, 0xaa, 0xf8, 0x00, 0xf0, 0x3f, 0x4b, 0x24, 0xa7, 0xf6, 0xac,
+	0x22, 0xe5, 0x90, 0xe9, 0x19, 0xec, 0x23, 0xd8, 0x53, 0x79, 0x97, 0x9e, 0x64, 0x57, 0x70, 0xc1,
+	0x9d, 0x18, 0xcc, 0xaf, 0x68, 0x11, 0x94, 0x50, 0xe7, 0xfa, 0x23, 0xbf, 0x17, 0x0a, 0xb5, 0xe0,
+	0x7b, 0x72, 0x5d, 0x78, 0x8f, 0x5e, 0x3b, 0x4f, 0x91, 0x3f, 0x2e, 0x6d, 0xd9, 0xbb, 0x5c, 0x27,
+	0x1c, 0xcb, 0x0f, 0x1e, 0xd1, 0xd4, 0x19, 0x9e, 0x93, 0x4c, 0x1d, 0xc3, 0x9b, 0x9f, 0x42, 0x7f,
+	0xbd, 0xe5, 0x71, 0x94, 0x88, 0x62, 0x1b, 0x75, 0xc1, 0x28, 0x1c, 0x87, 0x05, 0xbf, 0x25, 0x0a,
+	0x44, 0x67, 0x2f, 0xa9, 0xc3, 0xfd, 0xcb, 0x09, 0xd5, 0x73, 0x5c, 0x98, 0xe0, 0x41, 0x17, 0x0b,
+	0x5e, 0x72, 0xe6, 0xe0, 0xfc, 0xea, 0x87, 0x62, 0xe8, 0x1c, 0x9f, 0x61, 0x88, 0xdd, 0xc9, 0xda,
+	0x33, 0x9a, 0x8e, 0xf7, 0x88, 0x5a, 0xf4, 0x2b, 0x3f, 0x3d, 0x07, 0x00, 0x00, 0xff, 0xff, 0xf0,
+	0xac, 0xba, 0x45, 0xa7, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -306,7 +308,7 @@ type DataNodeClient interface {
 	SendBookInfo(ctx context.Context, in *Book, opts ...grpc.CallOption) (*Message, error)
 	DistributionType(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
 	UploadBook(ctx context.Context, opts ...grpc.CallOption) (DataNode_UploadBookClient, error)
-	DownloadBook(ctx context.Context, in *Message, opts ...grpc.CallOption) (DataNode_DownloadBookClient, error)
+	DownloadBook(ctx context.Context, opts ...grpc.CallOption) (DataNode_DownloadBookClient, error)
 	DistributeChunks(ctx context.Context, in *Chunk, opts ...grpc.CallOption) (*Message, error)
 	RescateChunks(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Proposal, error)
 	//Distribuido
@@ -373,28 +375,27 @@ func (x *dataNodeUploadBookClient) CloseAndRecv() (*Message, error) {
 	return m, nil
 }
 
-func (c *dataNodeClient) DownloadBook(ctx context.Context, in *Message, opts ...grpc.CallOption) (DataNode_DownloadBookClient, error) {
+func (c *dataNodeClient) DownloadBook(ctx context.Context, opts ...grpc.CallOption) (DataNode_DownloadBookClient, error) {
 	stream, err := c.cc.NewStream(ctx, &_DataNode_serviceDesc.Streams[1], "/lab.DataNode/DownloadBook", opts...)
 	if err != nil {
 		return nil, err
 	}
 	x := &dataNodeDownloadBookClient{stream}
-	if err := x.ClientStream.SendMsg(in); err != nil {
-		return nil, err
-	}
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
 	return x, nil
 }
 
 type DataNode_DownloadBookClient interface {
+	Send(*Chunk) error
 	Recv() (*Chunk, error)
 	grpc.ClientStream
 }
 
 type dataNodeDownloadBookClient struct {
 	grpc.ClientStream
+}
+
+func (x *dataNodeDownloadBookClient) Send(m *Chunk) error {
+	return x.ClientStream.SendMsg(m)
 }
 
 func (x *dataNodeDownloadBookClient) Recv() (*Chunk, error) {
@@ -462,7 +463,7 @@ type DataNodeServer interface {
 	SendBookInfo(context.Context, *Book) (*Message, error)
 	DistributionType(context.Context, *Message) (*Message, error)
 	UploadBook(DataNode_UploadBookServer) error
-	DownloadBook(*Message, DataNode_DownloadBookServer) error
+	DownloadBook(DataNode_DownloadBookServer) error
 	DistributeChunks(context.Context, *Chunk) (*Message, error)
 	RescateChunks(context.Context, *Message) (*Proposal, error)
 	//Distribuido
@@ -482,7 +483,7 @@ func (*UnimplementedDataNodeServer) DistributionType(ctx context.Context, req *M
 func (*UnimplementedDataNodeServer) UploadBook(srv DataNode_UploadBookServer) error {
 	return status.Errorf(codes.Unimplemented, "method UploadBook not implemented")
 }
-func (*UnimplementedDataNodeServer) DownloadBook(req *Message, srv DataNode_DownloadBookServer) error {
+func (*UnimplementedDataNodeServer) DownloadBook(srv DataNode_DownloadBookServer) error {
 	return status.Errorf(codes.Unimplemented, "method DownloadBook not implemented")
 }
 func (*UnimplementedDataNodeServer) DistributeChunks(ctx context.Context, req *Chunk) (*Message, error) {
@@ -562,15 +563,12 @@ func (x *dataNodeUploadBookServer) Recv() (*Chunk, error) {
 }
 
 func _DataNode_DownloadBook_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(Message)
-	if err := stream.RecvMsg(m); err != nil {
-		return err
-	}
-	return srv.(DataNodeServer).DownloadBook(m, &dataNodeDownloadBookServer{stream})
+	return srv.(DataNodeServer).DownloadBook(&dataNodeDownloadBookServer{stream})
 }
 
 type DataNode_DownloadBookServer interface {
 	Send(*Chunk) error
+	Recv() (*Chunk, error)
 	grpc.ServerStream
 }
 
@@ -580,6 +578,14 @@ type dataNodeDownloadBookServer struct {
 
 func (x *dataNodeDownloadBookServer) Send(m *Chunk) error {
 	return x.ServerStream.SendMsg(m)
+}
+
+func (x *dataNodeDownloadBookServer) Recv() (*Chunk, error) {
+	m := new(Chunk)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func _DataNode_DistributeChunks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -675,6 +681,7 @@ var _DataNode_serviceDesc = grpc.ServiceDesc{
 			StreamName:    "DownloadBook",
 			Handler:       _DataNode_DownloadBook_Handler,
 			ServerStreams: true,
+			ClientStreams: true,
 		},
 		{
 			StreamName:    "SendProposal",
@@ -689,6 +696,8 @@ var _DataNode_serviceDesc = grpc.ServiceDesc{
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type NameNodeClient interface {
+	GetAvaibleBooks(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
+	GetLocations(ctx context.Context, in *Message, opts ...grpc.CallOption) (NameNode_GetLocationsClient, error)
 	GetDistribution(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
 	GetBookInfo(ctx context.Context, in *Book, opts ...grpc.CallOption) (*Message, error)
 	//Centralizado
@@ -702,6 +711,47 @@ type nameNodeClient struct {
 
 func NewNameNodeClient(cc grpc.ClientConnInterface) NameNodeClient {
 	return &nameNodeClient{cc}
+}
+
+func (c *nameNodeClient) GetAvaibleBooks(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error) {
+	out := new(Message)
+	err := c.cc.Invoke(ctx, "/lab.NameNode/GetAvaibleBooks", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *nameNodeClient) GetLocations(ctx context.Context, in *Message, opts ...grpc.CallOption) (NameNode_GetLocationsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_NameNode_serviceDesc.Streams[0], "/lab.NameNode/GetLocations", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &nameNodeGetLocationsClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type NameNode_GetLocationsClient interface {
+	Recv() (*Proposal, error)
+	grpc.ClientStream
+}
+
+type nameNodeGetLocationsClient struct {
+	grpc.ClientStream
+}
+
+func (x *nameNodeGetLocationsClient) Recv() (*Proposal, error) {
+	m := new(Proposal)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func (c *nameNodeClient) GetDistribution(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error) {
@@ -723,7 +773,7 @@ func (c *nameNodeClient) GetBookInfo(ctx context.Context, in *Book, opts ...grpc
 }
 
 func (c *nameNodeClient) SendProposal(ctx context.Context, opts ...grpc.CallOption) (NameNode_SendProposalClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_NameNode_serviceDesc.Streams[0], "/lab.NameNode/SendProposal", opts...)
+	stream, err := c.cc.NewStream(ctx, &_NameNode_serviceDesc.Streams[1], "/lab.NameNode/SendProposal", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -754,7 +804,7 @@ func (x *nameNodeSendProposalClient) Recv() (*Proposal, error) {
 }
 
 func (c *nameNodeClient) GetChunkDistribution(ctx context.Context, in *Message, opts ...grpc.CallOption) (NameNode_GetChunkDistributionClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_NameNode_serviceDesc.Streams[1], "/lab.NameNode/GetChunkDistribution", opts...)
+	stream, err := c.cc.NewStream(ctx, &_NameNode_serviceDesc.Streams[2], "/lab.NameNode/GetChunkDistribution", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -787,6 +837,8 @@ func (x *nameNodeGetChunkDistributionClient) Recv() (*Proposal, error) {
 
 // NameNodeServer is the server API for NameNode service.
 type NameNodeServer interface {
+	GetAvaibleBooks(context.Context, *Message) (*Message, error)
+	GetLocations(*Message, NameNode_GetLocationsServer) error
 	GetDistribution(context.Context, *Message) (*Message, error)
 	GetBookInfo(context.Context, *Book) (*Message, error)
 	//Centralizado
@@ -798,6 +850,12 @@ type NameNodeServer interface {
 type UnimplementedNameNodeServer struct {
 }
 
+func (*UnimplementedNameNodeServer) GetAvaibleBooks(ctx context.Context, req *Message) (*Message, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAvaibleBooks not implemented")
+}
+func (*UnimplementedNameNodeServer) GetLocations(req *Message, srv NameNode_GetLocationsServer) error {
+	return status.Errorf(codes.Unimplemented, "method GetLocations not implemented")
+}
 func (*UnimplementedNameNodeServer) GetDistribution(ctx context.Context, req *Message) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDistribution not implemented")
 }
@@ -813,6 +871,45 @@ func (*UnimplementedNameNodeServer) GetChunkDistribution(req *Message, srv NameN
 
 func RegisterNameNodeServer(s *grpc.Server, srv NameNodeServer) {
 	s.RegisterService(&_NameNode_serviceDesc, srv)
+}
+
+func _NameNode_GetAvaibleBooks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Message)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NameNodeServer).GetAvaibleBooks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/lab.NameNode/GetAvaibleBooks",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NameNodeServer).GetAvaibleBooks(ctx, req.(*Message))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _NameNode_GetLocations_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Message)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(NameNodeServer).GetLocations(m, &nameNodeGetLocationsServer{stream})
+}
+
+type NameNode_GetLocationsServer interface {
+	Send(*Proposal) error
+	grpc.ServerStream
+}
+
+type nameNodeGetLocationsServer struct {
+	grpc.ServerStream
+}
+
+func (x *nameNodeGetLocationsServer) Send(m *Proposal) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 func _NameNode_GetDistribution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -903,6 +1000,10 @@ var _NameNode_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*NameNodeServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "GetAvaibleBooks",
+			Handler:    _NameNode_GetAvaibleBooks_Handler,
+		},
+		{
 			MethodName: "GetDistribution",
 			Handler:    _NameNode_GetDistribution_Handler,
 		},
@@ -912,6 +1013,11 @@ var _NameNode_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "GetLocations",
+			Handler:       _NameNode_GetLocations_Handler,
+			ServerStreams: true,
+		},
 		{
 			StreamName:    "SendProposal",
 			Handler:       _NameNode_SendProposal_Handler,
