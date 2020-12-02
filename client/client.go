@@ -40,7 +40,6 @@ func main() {
 
 	dc := data.NewDataNodeClient(conn)
 
-	//Conexion con el namenode
 	// Conexion con el namenode
 	var nameConn *grpc.ClientConn
 	nameConn, errc := grpc.Dial("10.10.28.20:9000", grpc.WithInsecure(), grpc.WithKeepaliveParams(keepalive.ClientParameters{}))
@@ -78,20 +77,23 @@ func main() {
 		//Centralizado
 		case '0':
 			dc.DistributionType(context.Background(), &data.Message{Text: "0"})
-			fmt.Println("Ingrese directorio del libro a cargar (incluída la extensión):")
+			fmt.Println("Ingrese el nombre del libro a cargar (sin la extensión):")
 			r2 := bufio.NewReader(os.Stdin)
 			c2, _, err2 := r2.ReadRune()
 			if err2 != nil {
 				fmt.Println(err2)
 			}
-			fileToBeChunked := string(c2)
-			fmt.Println("Ingrese nombre del libro a cargar (sin extensión):")
-			r3 := bufio.NewReader(os.Stdin)
-			c3, _, err3 := r3.ReadRune()
-			if err3 != nil {
-				fmt.Println(err3)
-			}
-			bookName = string(c3)
+			fileToBeChunked := "../books/" + string(c2) + ".pdf"
+			bookName = string(c2)
+			/*
+				fmt.Println("Ingrese nombre del libro a cargar (sin extensión):")
+				r3 := bufio.NewReader(os.Stdin)
+				c3, _, err3 := r3.ReadRune()
+				if err3 != nil {
+					fmt.Println(err3)
+				}
+				bookName = string(c3)
+			*/
 			runUploadBook(dc, fileToBeChunked)
 			break
 		//Distribuido
