@@ -14,6 +14,7 @@ service DataNode {
     rpc RescateChunks(Message)returns(Proposal){}
     //Distribuido
     rpc SendProposal(stream Proposal) returns (Message) {}
+    rpc PingProposal(stream Proposal) returns (Message){} 
 
 }
 
@@ -26,8 +27,7 @@ service NameNode {
     //Centralizado
     rpc SendProposal(stream Proposal) returns (stream Proposal) {}
     rpc GetChunkDistribution(Message) returns (stream Proposal) {}
-    //Distribuido
-    rpc PingProposal(stream Proposal) returns (Message){} 
+    
 }
 
 message File{
