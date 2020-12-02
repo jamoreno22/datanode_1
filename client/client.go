@@ -87,7 +87,7 @@ func main() {
 				log.Printf(string(c2))
 			*/
 			fmt.Scanln(&bookName)
-			fileToBeChunked := "../books/" + bookName + ".pdf"
+			fileToBeChunked := "books/" + bookName + ".pdf"
 			/*
 				fmt.Println("Ingrese nombre del libro a cargar (sin extensión):")
 				r3 := bufio.NewReader(os.Stdin)
