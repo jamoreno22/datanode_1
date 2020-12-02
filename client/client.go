@@ -102,14 +102,9 @@ func main() {
 
 		fmt.Println(disponibles)
 		fmt.Println("Ingrese nombre del libro a descargar (sin extensión): ")
-		r := bufio.NewReader(os.Stdin)
-		c, _, err := r.ReadRune()
+		fmt.Scanln(&bookName)
 
-		if err != nil {
-			fmt.Println(err)
-		}
-
-		chunks, err := nameClient.GetChunkDistribution(context.Background(), &data.Message{Text: string(c)})
+		chunks, _ := nameClient.GetChunkDistribution(context.Background(), &data.Message{Text: bookName})
 		var distributedProps []data.Proposal
 
 		for {
@@ -124,7 +119,7 @@ func main() {
 		}
 		var distributedChunks = []data.Chunk{}
 		for _, prop := range distributedProps {
-			distributedChunks = append(distributedChunks, data.Chunk{Name: prop.Chunk.Name, Data: runDownloadBook(prop).Data})
+			distributedChunks = append(distributedChunks, data.Chunk{Name: prop.Chunk.Name, Data: runDownloadBook(prop, dc).Data})
 		}
 		rebuildBook(distributedChunks)
 		fmt.Println("Descargado")
@@ -196,15 +191,8 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 	return nil
 }
 
-func runDownloadBook(prop data.Proposal) data.Chunk {
-	var conn *grpc.ClientConn
-	conn, err := grpc.Dial(prop.Ip, grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("Did not connect : %v", err)
-	}
-	dc := data.NewDataNodeClient(conn)
-
-	chunk, err := dc.DownloadBook(context.Background(), prop.Chunk)
+func runDownloadBook(prop data.Proposal, dc data.DataNodeClient) data.Chunk {
+	chunk, _ := dc.DownloadBook(context.Background(), prop.Chunk)
 	return *chunk
 }
 
