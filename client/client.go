@@ -62,7 +62,10 @@ func main() {
 			break
 		//Distribuido
 		case '1':
-			//dc.DistributionType(context.Background(), data.Message{Text: "1"})
+			dc.DistributionType(context.Background(), &data.Message{Text: "1"})
+			fileToBeChunked := "books/Mujercitas-Alcott_Louisa_May.pdf"
+			bookName = "Mujercitas-Alcott_Louisa_May.pdf"
+			runUploadBook(dc, fileToBeChunked)
 			break
 		}
 		break
