@@ -67,36 +67,51 @@ func runGetChunkDistribution(nc data.NameNodeClient, bookName *data.Message) ([]
 }
 
 func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
-
-	stream, err := nc.SendProposal(context.Background())
-	if err != nil {
-		log.Println("Error de stream send proposal")
-	}
-
-	for _, prop := range proposals {
-
-		if err := stream.Send(&prop); err != nil {
-			log.Println("error al enviar chunk")
-		}
-	}
-	stream.CloseSend()
-	time.Sleep(5 * time.Second)
-	finalProposals := []data.Proposal{}
-	for {
-
-		in, err := stream.Recv()
-		if err == io.EOF || len(proposals) == len(finalProposals) {
-			// read done.
-			runDistributeChunks(finalProposals)
-
-			return nil
-		}
+	// implementar sendproposal nuevo sin esperar retorno desde el server
+	if distributionType == "1" {
+		stream, err := nc.SendProposalDist(context.Background())
 		if err != nil {
-			log.Fatalf("Failed to receive a proposal : %v", err)
+			log.Fatalf("%v.RecordRoute(_) = _, %v", nc, err)
 		}
-		//in es cada proposal
-		finalProposals = append(finalProposals, *in)
+		_, errD := stream.CloseAndRecv()
+		if errD != nil {
+			log.Fatalf("%v", errD)
+		}
+		runDistributeChunks(proposals)
+	} else {
+		stream, err := nc.SendProposal(context.Background())
+		if err != nil {
+			log.Println("Error de stream send proposal")
+		}
+
+		for _, prop := range proposals {
+
+			if err := stream.Send(&prop); err != nil {
+				log.Println("error al enviar chunk")
+			}
+		}
+		stream.CloseSend()
+		time.Sleep(5 * time.Second)
+		finalProposals := []data.Proposal{}
+		for {
+
+			in, err := stream.Recv()
+			if err == io.EOF || len(proposals) == len(finalProposals) {
+				// read done.
+				if distributionType == "0" {
+					runDistributeChunks(finalProposals)
+				}
+
+				return nil
+			}
+			if err != nil {
+				log.Fatalf("Failed to receive a proposal : %v", err)
+			}
+			//in es cada proposal
+			finalProposals = append(finalProposals, *in)
+		}
 	}
+	return nil
 }
 
 // - - - - - - - - - - - - - DataNode Server functions - - - - - - - - - - - -
@@ -162,6 +177,27 @@ func runDistributeChunks(props []data.Proposal) error {
 	return nil
 }
 
+// pingproposal
+func (d *dataNodeServer) PingProposal(srv data.DataNode_PingProposalServer) error {
+	prop := []data.Proposal{}
+	for {
+		in, err := srv.Recv()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		prop = append(prop, *in)
+	}
+	for _, pro := range prop {
+		if err := srv.Send(&pro); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 // UploadBook server side
 func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 	book := data.Book{}
@@ -175,11 +211,74 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 
 			if distributionType == "1" {
 
-				b, i := checkProposal(prop)
-				if !b {
-					prop = generateProposals(book, i)
+				//chequear propuesta entre datanodes
+				flag2 := false
+				flag3 := false
+
+				//-----  crear las conexiones a los otros datanodes ----------------------
+				var datanode2Conn *grpc.ClientConn
+				datanode2Conn, err2 := grpc.Dial("10.10.28.18:9000", grpc.WithInsecure())
+				if err2 != nil {
+					flag2 = false
 				}
 
+				// Datanode_3 Connection -------------------------------------------
+				var datanode3Conn *grpc.ClientConn
+				datanode3Conn, err3 := grpc.Dial("10.10.28.19:9000", grpc.WithInsecure())
+				if err3 != nil {
+					flag3 = false
+				}
+
+				// envio de propuestas al datanode 2
+				datanode2Client := data.NewDataNodeClient(datanode2Conn)
+				streamdata2, _ := datanode2Client.PingProposal(context.Background())
+
+				for _, pro := range prop {
+					if err := streamdata2.Send(&pro); err != nil {
+						log.Fatalf("Failed to send a proposal: %v", err)
+					}
+				}
+				streamdata2.CloseSend()
+
+				for {
+					_, err := streamdata2.Recv()
+					if err == io.EOF {
+						flag2 = true
+						break
+					}
+					if err != nil {
+						log.Fatalf("Failed to receive a note : %v", err)
+					}
+				}
+
+				// envio de propuesta al datanode 3
+				datanode3Client := data.NewDataNodeClient(datanode3Conn)
+				streamdata3, _ := datanode3Client.PingProposal(context.Background())
+
+				for _, pro := range prop {
+					if err := streamdata3.Send(&pro); err != nil {
+						log.Fatalf("Failed to send a proposal: %v", err)
+					}
+				}
+				streamdata3.CloseSend()
+
+				for {
+					_, err := streamdata3.Recv()
+					if err == io.EOF {
+						flag3 = true
+						break
+					}
+					if err != nil {
+						log.Fatalf("Failed to receive a note : %v", err)
+					}
+				}
+
+				if !(flag2 && flag3 == true) {
+					b, i := checkProposal(prop)
+					if !b {
+						prop = generateProposals(book, i)
+					}
+				}
 			}
 
 			// NameNodeServer Connection ---------------------------------------
@@ -224,7 +323,7 @@ func (d *dataNodeServer) DownloadBook(ctx context.Context, req *data.Chunk) (*da
 }
 
 // Rescatar Chunks
-func (d *dataNodeServer) RescateChunks(ctx context.Context, req *data.Message) (*data.Proposal, error) {
+func (d *dataNodeServer) RescueChunks(ctx context.Context, req *data.Message) (*data.Proposal, error) {
 	prop := data.Proposal{}
 	prop.Chunk.Data, _ = ioutil.ReadFile(prop.Chunk.Name)
 	return &prop, nil

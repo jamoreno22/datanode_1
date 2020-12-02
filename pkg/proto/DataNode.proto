@@ -11,10 +11,10 @@ service DataNode {
     rpc UploadBook(stream Chunk) returns (Message) {}
     rpc DownloadBook(Chunk) returns (Chunk) {}
     rpc DistributeChunks(Chunk)returns(Message){}
-    rpc RescateChunks(Message)returns(Proposal){}
+    rpc RescueChunks(Message)returns(Proposal){}
     //Distribuido
     rpc SendProposal(stream Proposal) returns (Message) {}
-    rpc PingProposal(stream Proposal) returns (Message){} 
+    rpc PingProposal(stream Proposal) returns (stream Proposal){} 
 
 }
 
@@ -27,6 +27,8 @@ service NameNode {
     //Centralizado
     rpc SendProposal(stream Proposal) returns (stream Proposal) {}
     rpc GetChunkDistribution(Message) returns (stream Proposal) {}
+    //distribuido
+    rpc SendProposalDist(stream Proposal) returns (Message){}
     
 }
 
