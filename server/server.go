@@ -193,7 +193,10 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 			//-------------------------------------------------------------------
 
 			// Send Book Info to NameNodeServer
-			_, errD := nameClient.GetDistribution(context.Background(), &data.Message{Text: distributionType})
+			_, errd := nameClient.GetDistribution(context.Background(), &data.Message{Text: distributionType})
+			if errd != nil {
+				log.Printf("%v", errd)
+			}
 			_, err4 := nameClient.GetBookInfo(context.Background(), &data.Book{Name: bookName, Parts: bookParts})
 			if err4 != nil {
 				log.Fatalf("Did not connect: %s", err4)
