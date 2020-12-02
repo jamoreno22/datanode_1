@@ -67,14 +67,14 @@ func main() {
 		//Centralizado
 		case '0':
 			dc.DistributionType(context.Background(), &data.Message{Text: "0"})
-			fmt.Println("Ingrese directorio del libro a cargar:")
+			fmt.Println("Ingrese directorio del libro a cargar (incluída la extensión):")
 			r2 := bufio.NewReader(os.Stdin)
 			c2, _, err2 := r2.ReadRune()
 			if err2 != nil {
 				fmt.Println(err2)
 			}
 			fileToBeChunked := string(c2)
-			fmt.Println("Ingrese nombre del libro a cargar:")
+			fmt.Println("Ingrese nombre del libro a cargar (sin extensión):")
 			r3 := bufio.NewReader(os.Stdin)
 			c3, _, err3 := r3.ReadRune()
 			if err3 != nil {
@@ -86,14 +86,14 @@ func main() {
 		//Distribuido
 		case '1':
 			dc.DistributionType(context.Background(), &data.Message{Text: "1"})
-			fmt.Println("Ingrese directorio del libro a cargar:")
+			fmt.Println("Ingrese directorio del libro a cargar (incluída la extensión):")
 			r2 := bufio.NewReader(os.Stdin)
 			c2, _, err2 := r2.ReadRune()
 			if err2 != nil {
 				fmt.Println(err2)
 			}
 			fileToBeChunked := string(c2)
-			fmt.Println("Ingrese nombre del libro a cargar:")
+			fmt.Println("Ingrese nombre del libro a cargar (sin extensión):")
 			r3 := bufio.NewReader(os.Stdin)
 			c3, _, err3 := r3.ReadRune()
 			if err3 != nil {
@@ -106,7 +106,7 @@ func main() {
 		break
 	//Download
 	case '1':
-		fmt.Println("Ingrese nombre del libro a descargar sin extensión: ")
+		fmt.Println("Ingrese nombre del libro a descargar (sin extensión): ")
 		r := bufio.NewReader(os.Stdin)
 		c, _, err := r.ReadRune()
 
@@ -136,7 +136,7 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 
 	var fileSize int64 = fileInfo.Size()
 
-	const fileChunk = 250000 // 1 MB, change this to your requirement
+	const fileChunk = 250000
 
 	// calculate total number of parts the file will be chunked into
 
@@ -164,12 +164,12 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 	// - - - - - --- -- - -  stream chunks - - - - - - - - - - - -
 	stream, err := dc.UploadBook(context.Background())
 	if err != nil {
-		log.Println("Error de stream uploadBook")
+		log.Println("Error stream uploadBook")
 	}
 	a := 1
 	for _, chunk := range book {
 		if err := stream.Send(chunk); err != nil {
-			log.Println("error al enviar chunk")
+			log.Println("Error sending chunk")
 			log.Fatalf("%v.Send(%d) = %v", stream, a, err)
 		}
 		a = a + 1
@@ -206,7 +206,7 @@ func runDownloadBook(dc data.DataNodeClient, msg string) error {
 
 func rebuildBook(chunks []data.Chunk) error {
 
-	newFileName := bookName + ".zip"
+	newFileName := bookName + ".pdf"
 	_, err := os.Create(newFileName)
 
 	if err != nil {
@@ -288,10 +288,6 @@ func rebuildBook(chunks []data.Chunk) error {
 		// also a good practice to clean up your own plate after eating
 
 		chunkBufferBytes = nil // reset or empty our buffer
-
-		fmt.Println("Written ", n, " bytes")
-
-		fmt.Println("Recombining part [", j, "] into : ", newFileName)
 	}
 
 	// now, we close the newFileName
