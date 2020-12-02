@@ -83,6 +83,7 @@ func main() {
 			if err2 != nil {
 				fmt.Println(err2)
 			}
+			log.Printf(string(c2))
 			fileToBeChunked := "../books/" + string(c2) + ".pdf"
 			bookName = string(c2)
 			/*
