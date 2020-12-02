@@ -7,8 +7,10 @@ import (
 	"io"
 	"log"
 	"math"
+	"net"
 	"os"
 	"strconv"
+	"time"
 
 	data "github.com/jamoreno22/lab2_dist/datanode_1/pkg/proto"
 	"google.golang.org/grpc"
@@ -19,7 +21,16 @@ var bookName string
 func main() {
 	var conn *grpc.ClientConn
 
-	conn, err := grpc.Dial("10.10.28.17:9000", grpc.WithInsecure())
+	var ips = []string{"10.10.28.17:9000", "10.10.28.18:9000", "10.10.28.19:9000"}
+	var gIps []string
+
+	for _, ip := range ips {
+		if pingDataNode(ip) {
+			gIps = append(gIps, ip)
+		}
+	}
+
+	conn, err := grpc.Dial(gIps[0], grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %s", err)
 	}
@@ -263,4 +274,13 @@ func rebuildBook(chunks []data.Chunk) error {
 	file.Close()
 
 	return nil
+}
+
+func pingDataNode(ip string) bool {
+	timeOut := time.Duration(10 * time.Second)
+	_, err := net.DialTimeout("tcp", ip, timeOut)
+	if err != nil {
+		return false
+	}
+	return true
 }

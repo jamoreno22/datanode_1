@@ -24,3 +24,5 @@ Se escoge descargar (1):
         Los chunks son entregados al cliente
         El libro se reconstruye a partir de los chunks recibidos.
         Este es guardado en la carpeta /LibrosDelCliente
+
+        Crear la lógica para descargar, utilizar la ip y el nombre del chunk entregados para encontrar estos en el datanode y enviarselos al cliente.
