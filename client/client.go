@@ -10,6 +10,7 @@ import (
 	"net"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	data "github.com/jamoreno22/lab2_dist/datanode_1/pkg/proto"
@@ -18,6 +19,7 @@ import (
 )
 
 var bookName string
+var bookNumber int
 
 func main() {
 	var conn *grpc.ClientConn
@@ -49,6 +51,9 @@ func main() {
 
 	nameClient := data.NewNameNodeClient(nameConn)
 
+	disponibles, _ := nameClient.GetAvaibleBooks(context.Background(), &data.Message{})
+	bookNumber = strings.Count(disponibles.Text, "\n") + 1
+
 	fmt.Println("Seleccione qué desea hacer:")
 	fmt.Println("0 : Cargar un libro")
 	fmt.Println("1 : Descargar un libro")
@@ -78,44 +83,16 @@ func main() {
 		case '0':
 			dc.DistributionType(context.Background(), &data.Message{Text: "0"})
 			fmt.Println("Ingrese el nombre del libro a cargar (sin la extensión):")
-			/*
-				r2 := bufio.NewReader(os.Stdin)
-				c2, _, err2 := r2.ReadRune()
-				if err2 != nil {
-					fmt.Println(err2)
-				}
-				log.Printf(string(c2))
-			*/
 			fmt.Scanln(&bookName)
 			fileToBeChunked := "books/" + bookName + ".pdf"
-			/*
-				fmt.Println("Ingrese nombre del libro a cargar (sin extensión):")
-				r3 := bufio.NewReader(os.Stdin)
-				c3, _, err3 := r3.ReadRune()
-				if err3 != nil {
-					fmt.Println(err3)
-				}
-				bookName = string(c3)
-			*/
 			runUploadBook(dc, fileToBeChunked)
 			break
 		//Distribuido
 		case '1':
 			dc.DistributionType(context.Background(), &data.Message{Text: "1"})
-			fmt.Println("Ingrese directorio del libro a cargar (incluída la extensión):")
-			r2 := bufio.NewReader(os.Stdin)
-			c2, _, err2 := r2.ReadRune()
-			if err2 != nil {
-				fmt.Println(err2)
-			}
-			fileToBeChunked := string(c2)
-			fmt.Println("Ingrese nombre del libro a cargar (sin extensión):")
-			r3 := bufio.NewReader(os.Stdin)
-			c3, _, err3 := r3.ReadRune()
-			if err3 != nil {
-				fmt.Println(err3)
-			}
-			bookName = string(c3)
+			fmt.Println("Ingrese el nombre del libro a cargar (sin la extensión):")
+			fmt.Scanln(&bookName)
+			fileToBeChunked := "books/" + bookName + ".pdf"
 			runUploadBook(dc, fileToBeChunked)
 			break
 		}
@@ -123,7 +100,7 @@ func main() {
 		//Download
 	case '1':
 
-		fmt.Println(nameClient.GetAvaibleBooks(context.Background(), &data.Message{}))
+		fmt.Println(disponibles)
 		fmt.Println("Ingrese nombre del libro a descargar (sin extensión): ")
 		r := bufio.NewReader(os.Stdin)
 		c, _, err := r.ReadRune()
@@ -189,7 +166,7 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 		file.Read(partBuffer)
 
 		// write to disk
-		fileName := "part_" + strconv.Itoa(part) + "_" + strconv.Itoa(int(totalPartsNum))
+		fileName := "part_" + strconv.Itoa(bookNumber) + "_" + strconv.Itoa(part)
 
 		// books instantiation
 		book[i] = &data.Chunk{Name: fileName, Data: partBuffer}
