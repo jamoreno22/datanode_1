@@ -78,14 +78,16 @@ func main() {
 		case '0':
 			dc.DistributionType(context.Background(), &data.Message{Text: "0"})
 			fmt.Println("Ingrese el nombre del libro a cargar (sin la extensión):")
-			r2 := bufio.NewReader(os.Stdin)
-			c2, _, err2 := r2.ReadRune()
-			if err2 != nil {
-				fmt.Println(err2)
-			}
-			log.Printf(string(c2))
-			fileToBeChunked := "../books/" + string(c2) + ".pdf"
-			bookName = string(c2)
+			/*
+				r2 := bufio.NewReader(os.Stdin)
+				c2, _, err2 := r2.ReadRune()
+				if err2 != nil {
+					fmt.Println(err2)
+				}
+				log.Printf(string(c2))
+			*/
+			fmt.Scanln(&bookName)
+			fileToBeChunked := "../books/" + bookName + ".pdf"
 			/*
 				fmt.Println("Ingrese nombre del libro a cargar (sin extensión):")
 				r3 := bufio.NewReader(os.Stdin)
