@@ -9,7 +9,7 @@ service DataNode {
     rpc SendBookInfo(Book)returns(Message){}
     rpc DistributionType(Message) returns (Message){}
     rpc UploadBook(stream Chunk) returns (Message) {}
-    rpc DownloadBook(stream Chunk) returns (stream Chunk) {}
+    rpc DownloadBook(Chunk) returns (Chunk) {}
     rpc DistributeChunks(Chunk)returns(Message){}
     rpc RescateChunks(Message)returns(Proposal){}
     //Distribuido

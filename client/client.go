@@ -14,6 +14,7 @@ import (
 
 	data "github.com/jamoreno22/lab2_dist/datanode_1/pkg/proto"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/keepalive"
 )
 
 var bookName string
@@ -38,6 +39,16 @@ func main() {
 	defer conn.Close()
 
 	dc := data.NewDataNodeClient(conn)
+
+	//Conexion con el namenode
+	// Conexion con el namenode
+	var nameConn *grpc.ClientConn
+	nameConn, errc := grpc.Dial("10.10.28.20:9000", grpc.WithInsecure(), grpc.WithKeepaliveParams(keepalive.ClientParameters{}))
+	if errc != nil {
+		log.Fatalf("Did not connect : %v", errc)
+	}
+
+	nameClient := data.NewNameNodeClient(nameConn)
 
 	fmt.Println("Seleccione qué desea hacer:")
 	fmt.Println("0 : Cargar un libro")
@@ -104,8 +115,10 @@ func main() {
 			break
 		}
 		break
-	//Download
+		//Download
 	case '1':
+
+		fmt.Println(nameClient.GetAvaibleBooks(context.Background(), &data.Message{}))
 		fmt.Println("Ingrese nombre del libro a descargar (sin extensión): ")
 		r := bufio.NewReader(os.Stdin)
 		c, _, err := r.ReadRune()
@@ -113,7 +126,25 @@ func main() {
 		if err != nil {
 			fmt.Println(err)
 		}
-		runDownloadBook(dc, "books/"+string(c)+".pdf")
+
+		chunks, err := nameClient.GetChunkDistribution(context.Background(), &data.Message{Text: string(c)})
+		var distributedProps []data.Proposal
+
+		for {
+			prop, err := chunks.Recv()
+			if err == io.EOF {
+				break
+			}
+			if err != nil {
+				log.Fatalf("%v", err)
+			}
+			distributedProps = append(distributedProps, *prop)
+		}
+		var distributedChunks = []data.Chunk{}
+		for _, prop := range distributedProps {
+			distributedChunks = append(distributedChunks, data.Chunk{Name: prop.Chunk.Name, Data: runDownloadBook(prop).Data})
+		}
+		rebuildBook(distributedChunks)
 		fmt.Println("Descargado")
 		break
 	}
@@ -183,25 +214,16 @@ func runUploadBook(dc data.DataNodeClient, fileToBeChunked string) error {
 	return nil
 }
 
-func runDownloadBook(dc data.DataNodeClient, msg string) error {
-	var chunks []data.Chunk
-	stream, err := dc.DownloadBook(context.Background(), &data.Message{Text: msg})
+func runDownloadBook(prop data.Proposal) data.Chunk {
+	var conn *grpc.ClientConn
+	conn, err := grpc.Dial(prop.Ip, grpc.WithInsecure())
 	if err != nil {
-		return err
+		log.Fatalf("Did not connect : %v", err)
 	}
-	for {
-		chunk, err := stream.Recv()
-		log.Printf("recibiendo chunks")
-		if err == io.EOF {
-			log.Printf("antes del rebuild")
-			rebuildBook(chunks)
-			return nil
-		}
-		if err != nil {
-			log.Fatalf("%v.ListFeatures(_) = _, %v", dc, err)
-		}
-		chunks = append(chunks, *chunk)
-	}
+	dc := data.NewDataNodeClient(conn)
+
+	chunk, err := dc.DownloadBook(context.Background(), prop.Chunk)
+	return *chunk
 }
 
 func rebuildBook(chunks []data.Chunk) error {
@@ -273,10 +295,10 @@ func rebuildBook(chunks []data.Chunk) error {
 		// write/save buffer to disk
 		//ioutil.WriteFile(newFileName, chunkBufferBytes, os.ModeAppend)
 
-		n, err := file.Write(chunkBufferBytes)
+		_, err1 := file.Write(chunkBufferBytes)
 
-		if err != nil {
-			fmt.Println(err)
+		if err1 != nil {
+			fmt.Println(err1)
 			os.Exit(1)
 		}
 
