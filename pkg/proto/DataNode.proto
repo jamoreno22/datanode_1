@@ -20,13 +20,14 @@ service DataNode {
 service NameNode {
 
     rpc GetAvaibleBooks(Message)returns(Message){}
-    rpc GetLocations(Message)returns(stream Proposal){}
 
     rpc GetDistribution(Message)returns(Message){}
     rpc GetBookInfo(Book) returns (Message) {}
     //Centralizado
     rpc SendProposal(stream Proposal) returns (stream Proposal) {}
     rpc GetChunkDistribution(Message) returns (stream Proposal) {}
+    //Distribuido
+    rpc PingProposal(stream Proposal) returns (Message){} 
 }
 
 message File{
