@@ -78,6 +78,7 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 			log.Fatalf("%v", errD)
 		}
 		runDistributeChunks(proposals)
+		log.Printf("chunks distribuidos")
 	} else {
 		stream, err := nc.SendProposal(context.Background())
 		if err != nil {
@@ -273,7 +274,7 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 					}
 				}
 
-				if !(flag2 && flag3 == true) {
+				if flag2 == false || flag3 == false {
 					b, i := checkProposal(prop)
 					if !b {
 						prop = generateProposals(book, i)
@@ -300,6 +301,7 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 			if err4 != nil {
 				log.Fatalf("Did not connect: %s", err4)
 			}
+			log.Printf("voy terminando")
 			runSendProposal(nameClient, prop)
 			defer nameConn.Close()
 			return (ubs.SendAndClose(&data.Message{Text: "EOF"}))
