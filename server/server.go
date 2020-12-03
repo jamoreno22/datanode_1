@@ -83,7 +83,6 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 			log.Fatalf("%v", errD)
 		}
 		runDistributeChunks(proposals)
-		log.Printf("chunks distribuidos")
 	} else {
 		stream, err := nc.SendProposal(context.Background())
 		if err != nil {
@@ -208,7 +207,6 @@ func (d *dataNodeServer) PingProposal(srv data.DataNode_PingProposalServer) erro
 func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 	book := data.Book{}
 	indice := 0
-	log.Printf("inicio uploadbook")
 	for {
 		chunk, err := ubs.Recv()
 		if err == io.EOF {
@@ -235,10 +233,8 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 				if err3 != nil {
 					flag3 = false
 				}
-				log.Printf("envio de propuestas data 2")
 				// envio de propuestas al datanode 2
 				if flag2 {
-
 					datanode2Client := data.NewDataNodeClient(datanode2Conn)
 					streamdata2, _ := datanode2Client.PingProposal(context.Background())
 
@@ -260,7 +256,6 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 						}
 					}
 				}
-				log.Printf("envio de propuestas data 3")
 				// envio de propuesta al datanode 3
 				if flag3 {
 
@@ -303,7 +298,6 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 
 			nameClient := data.NewNameNodeClient(nameConn)
 			//-------------------------------------------------------------------
-			log.Printf("envio de info al nameserver")
 			// Send Book Info to NameNodeServer
 			_, errd := nameClient.GetDistribution(context.Background(), &data.Message{Text: distributionType})
 			if errd != nil {
@@ -313,7 +307,6 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 			if err4 != nil {
 				log.Fatalf("Did not connect: %s", err4)
 			}
-			log.Printf("voy terminando")
 			runSendProposal(nameClient, prop)
 			defer nameConn.Close()
 			return (ubs.SendAndClose(&data.Message{Text: "EOF"}))
