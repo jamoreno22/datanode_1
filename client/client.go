@@ -84,8 +84,11 @@ func main() {
 			dc.DistributionType(context.Background(), &data.Message{Text: "0"})
 			fmt.Println("Ingrese el nombre del libro a cargar (sin la extensión):")
 			fmt.Scanln(&bookName)
+			inicioCentralizado := time.Now()
 			fileToBeChunked := "books/" + bookName + ".pdf"
 			runUploadBook(dc, fileToBeChunked)
+			finCentralizado := time.Now()
+			log.Printf("tiempo hasta escribir el log: %d ns", int64(finCentralizado.Sub(inicioCentralizado)/time.Nanosecond))
 			break
 		//Distribuido
 		case '1':
