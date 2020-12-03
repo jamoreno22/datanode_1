@@ -203,6 +203,7 @@ func (d *dataNodeServer) PingProposal(srv data.DataNode_PingProposalServer) erro
 func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 	book := data.Book{}
 	indice := 0
+	log.Printf("inicio uploadbook")
 	for {
 		chunk, err := ubs.Recv()
 		if err == io.EOF {
@@ -229,7 +230,7 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 				if err3 != nil {
 					flag3 = false
 				}
-
+				log.Printf("envio de propuestas data 2")
 				// envio de propuestas al datanode 2
 				datanode2Client := data.NewDataNodeClient(datanode2Conn)
 				streamdata2, _ := datanode2Client.PingProposal(context.Background())
@@ -291,7 +292,7 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 
 			nameClient := data.NewNameNodeClient(nameConn)
 			//-------------------------------------------------------------------
-
+			log.Printf("envio de info al nameserver")
 			// Send Book Info to NameNodeServer
 			_, errd := nameClient.GetDistribution(context.Background(), &data.Message{Text: distributionType})
 			if errd != nil {
