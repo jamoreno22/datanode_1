@@ -252,7 +252,7 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 						log.Fatalf("Failed to receive a note : %v", err)
 					}
 				}
-
+				log.Printf("envio de propuestas data 3")
 				// envio de propuesta al datanode 3
 				datanode3Client := data.NewDataNodeClient(datanode3Conn)
 				streamdata3, _ := datanode3Client.PingProposal(context.Background())
