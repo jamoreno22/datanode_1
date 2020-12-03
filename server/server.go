@@ -73,6 +73,11 @@ func runSendProposal(nc data.NameNodeClient, proposals []data.Proposal) error {
 		if err != nil {
 			log.Fatalf("%v.RecordRoute(_) = _, %v", nc, err)
 		}
+		for _, prop := range proposals {
+			if err := stream.Send(&prop); err != nil {
+				log.Fatalf("%v.Send(%v) = %v", stream, prop, err)
+			}
+		}
 		_, errD := stream.CloseAndRecv()
 		if errD != nil {
 			log.Fatalf("%v", errD)
