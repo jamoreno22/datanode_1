@@ -232,46 +232,52 @@ func (d *dataNodeServer) UploadBook(ubs data.DataNode_UploadBookServer) error {
 				}
 				log.Printf("envio de propuestas data 2")
 				// envio de propuestas al datanode 2
-				datanode2Client := data.NewDataNodeClient(datanode2Conn)
-				streamdata2, _ := datanode2Client.PingProposal(context.Background())
+				if flag2 {
 
-				for _, pro := range prop {
-					if err := streamdata2.Send(&pro); err != nil {
-						log.Fatalf("Failed to send a proposal: %v", err)
-					}
-				}
-				streamdata2.CloseSend()
+					datanode2Client := data.NewDataNodeClient(datanode2Conn)
+					streamdata2, _ := datanode2Client.PingProposal(context.Background())
 
-				for {
-					_, err := streamdata2.Recv()
-					if err == io.EOF {
-						flag2 = true
-						break
+					for _, pro := range prop {
+						if err := streamdata2.Send(&pro); err != nil {
+							log.Fatalf("Failed to send a proposal: %v", err)
+						}
 					}
-					if err != nil {
-						log.Fatalf("Failed to receive a note : %v", err)
+					streamdata2.CloseSend()
+
+					for {
+						_, err := streamdata2.Recv()
+						if err == io.EOF {
+							flag2 = true
+							break
+						}
+						if err != nil {
+							log.Fatalf("Failed to receive a note : %v", err)
+						}
 					}
 				}
 				log.Printf("envio de propuestas data 3")
 				// envio de propuesta al datanode 3
-				datanode3Client := data.NewDataNodeClient(datanode3Conn)
-				streamdata3, _ := datanode3Client.PingProposal(context.Background())
+				if flag3 {
 
-				for _, pro := range prop {
-					if err := streamdata3.Send(&pro); err != nil {
-						log.Fatalf("Failed to send a proposal: %v", err)
-					}
-				}
-				streamdata3.CloseSend()
+					datanode3Client := data.NewDataNodeClient(datanode3Conn)
+					streamdata3, _ := datanode3Client.PingProposal(context.Background())
 
-				for {
-					_, err := streamdata3.Recv()
-					if err == io.EOF {
-						flag3 = true
-						break
+					for _, pro := range prop {
+						if err := streamdata3.Send(&pro); err != nil {
+							log.Fatalf("Failed to send a proposal: %v", err)
+						}
 					}
-					if err != nil {
-						log.Fatalf("Failed to receive a note : %v", err)
+					streamdata3.CloseSend()
+
+					for {
+						_, err := streamdata3.Recv()
+						if err == io.EOF {
+							flag3 = true
+							break
+						}
+						if err != nil {
+							log.Fatalf("Failed to receive a note : %v", err)
+						}
 					}
 				}
 
